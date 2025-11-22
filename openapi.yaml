@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Apex Logistics Master API
-  description: Unified access to Apex Inventory, Vendor Risk, and Policy Data.
-  version: 1.0.0
+  description: Unified access to Apex Inventory, Vendor Risk, and Policy Data with unit prices for policy-compliant ordering.
+  version: 1.1.0
 
 servers:
   - url: https://agentic-ai-hackathon-with-ibm-watso.vercel.app/
@@ -12,7 +12,7 @@ paths:
     get:
       operationId: getOperationalData
       summary: Get Operational Data
-      description: Fetches live inventory counts, vendor risk profiles, and policy thresholds.
+      description: Fetches inventory (with unit prices), vendor risk profiles, and policy thresholds.
       responses:
         '200':
           description: Success
@@ -31,27 +31,39 @@ paths:
                         stock_level: { type: integer }
                         reorder_threshold: { type: integer }
                         status: { type: string }
+                        unit_price: { type: number }
+                      required:
+                        - product
+                        - warehouse
+                        - stock_level
+                        - reorder_threshold
+                        - status
+                        - unit_price
                     example:
                       - product: Solar Panels
                         warehouse: Douala Central
                         stock_level: 120
                         reorder_threshold: 100
                         status: Sufficient
+                        unit_price: 150
                       - product: Battery Packs
                         warehouse: Douala Central
                         stock_level: 45
                         reorder_threshold: 50
                         status: Below threshold
+                        unit_price: 40
                       - product: Smart Meters
                         warehouse: Douala Central
                         stock_level: 200
                         reorder_threshold: 150
                         status: Sufficient
+                        unit_price: 60
                       - product: LED Bulbs
                         warehouse: Douala Central
                         stock_level: 80
                         reorder_threshold: 75
                         status: Sufficient
+                        unit_price: 5
 
                   vendors:
                     type: array
@@ -68,7 +80,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              date: { type: string }
+                              date: { type: string, format: date }
                               issue: { type: string }
                               resolution: { type: string }
                         sustainability:
@@ -91,7 +103,6 @@ paths:
                           waste_compliance_percent: 98
                           sdg9_alignment: Strong
                           audit_score: A
-
                       - name: NovaTrade Inc.
                         region: Lagos, Nigeria
                         risk_rating: Medium
@@ -105,7 +116,6 @@ paths:
                           waste_compliance_percent: 85
                           sdg9_alignment: Moderate
                           audit_score: B
-
                       - name: SolaTech SARL
                         region: Yaoundé, Cameroon
                         risk_rating: High
@@ -141,7 +151,6 @@ paths:
                           - range: "> $20,000"
                             approval_level: Dual approval
                             approvers: ["Finance", "Procurement"]
-
                       contract_terms:
                         type: object
                         properties:
@@ -152,7 +161,7 @@ paths:
                         example:
                           vendor_name: TransGlobal Freight Ltd.
                           delivery_sla_days: 7
-                          penalty_percent: 2.0
+                          penalty_percent: 2
                           escalation_steps:
                             - Alert Procurement Officer
                             - Escalate to Compliance Manager after 48h

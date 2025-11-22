@@ -2,12 +2,13 @@ import express from "express";
 
 const app = express();
 
+// In-memory operational data
 const operationalData = {
   inventory: [
-    { product: "Solar Panels", warehouse: "Douala Central", stock_level: 120, reorder_threshold: 100, status: "Sufficient" },
-    { product: "Battery Packs", warehouse: "Douala Central", stock_level: 45, reorder_threshold: 50, status: "Below threshold" },
-    { product: "Smart Meters", warehouse: "Douala Central", stock_level: 200, reorder_threshold: 150, status: "Sufficient" },
-    { product: "LED Bulbs", warehouse: "Douala Central", stock_level: 80, reorder_threshold: 75, status: "Sufficient" }
+    { product: "Solar Panels", warehouse: "Douala Central", stock_level: 120, reorder_threshold: 100, status: "Sufficient", unit_price: 150 },
+    { product: "Battery Packs", warehouse: "Douala Central", stock_level: 45, reorder_threshold: 50, status: "Below threshold", unit_price: 40 },
+    { product: "Smart Meters", warehouse: "Douala Central", stock_level: 200, reorder_threshold: 150, status: "Sufficient", unit_price: 60 },
+    { product: "LED Bulbs", warehouse: "Douala Central", stock_level: 80, reorder_threshold: 75, status: "Sufficient", unit_price: 5 }
   ],
   vendors: [
     {
@@ -65,9 +66,35 @@ const operationalData = {
   }
 };
 
-// Root endpoint
 app.get("/", (req, res) => {
   res.json(operationalData);
+});
+
+app.get("/order-check", (req, res) => {
+  const { product, quantity } = req.query;
+  if (!product || !quantity) {
+    return res.status(400).json({ error: "Provide product and quantity query params." });
+  }
+  const item = operationalData.inventory.find(i => i.product.toLowerCase() === String(product).toLowerCase());
+  if (!item) return res.status(404).json({ error: "Product not found." });
+
+  const qty = Number(quantity);
+  const total = qty * item.unit_price;
+
+  let approval = { level: "Auto-approved", approvers: [] };
+  if (total >= 5000 && total <= 20000) {
+    approval = { level: "Procurement review", approvers: ["Procurement Officer"] };
+  } else if (total > 20000) {
+    approval = { level: "Dual approval", approvers: ["Finance", "Procurement"] };
+  }
+
+  res.json({
+    product: item.product,
+    unit_price: item.unit_price,
+    quantity: qty,
+    total_cost: total,
+    policy_decision: approval
+  });
 });
 
 // Export for Vercel
