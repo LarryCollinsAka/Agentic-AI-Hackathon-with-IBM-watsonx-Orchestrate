@@ -1,0 +1,15 @@
+name: get_vendor_profile
+description: >
+  Returns vendor region, risk rating, preferred language, and last delivery status.
+inputs:
+  - vendor_name: string
+outputs:
+  - region: string
+  - risk_rating: string  # "Low", "Medium", "High"
+  - preferred_language: string
+  - last_delivery_status: string
+
+logic:
+  - EcoSupply Ltd. → Northern Cameroon, Low, Fulfulde, On time
+  - NovaTrade Inc. → Lagos, Nigeria, Medium, English, Delayed by 4 days
+  - SolaTech SARL → Yaoundé, Cameroon, High, French, On time

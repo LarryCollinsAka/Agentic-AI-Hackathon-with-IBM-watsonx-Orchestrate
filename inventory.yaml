@@ -1,0 +1,15 @@
+name: get_inventory_status
+description: >
+  Returns the current stock level and reorder threshold for a given product at Apex's Douala Central warehouse.
+inputs:
+  - product: string
+outputs:
+  - stock_level: integer
+  - reorder_threshold: integer
+  - status: string  # "Sufficient", "Below threshold", "Critical"
+
+logic:
+  - Solar Panels: 120 units (threshold: 100) → Sufficient
+  - Battery Packs: 45 units (threshold: 50) → Below threshold
+  - Smart Meters: 200 units (threshold: 150) → Sufficient
+  - LED Bulbs: 80 units (threshold: 75) → Sufficient

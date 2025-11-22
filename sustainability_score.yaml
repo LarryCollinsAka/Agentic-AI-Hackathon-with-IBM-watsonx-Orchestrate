@@ -1,0 +1,14 @@
+name: get_sustainability_score
+description: >
+  Returns vendor’s waste compliance %, SDG 9 alignment, and audit score.
+inputs:
+  - vendor_name: string
+outputs:
+  - waste_compliance_percent: integer
+  - sdg9_alignment: string  # "Strong", "Moderate", "Weak"
+  - audit_score: string  # "A", "B", "C"
+
+logic:
+  - EcoSupply Ltd. → 98%, Strong, A
+  - NovaTrade Inc. → 85%, Moderate, B
+  - SolaTech SARL → 60%, Weak, C

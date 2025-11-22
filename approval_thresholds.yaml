@@ -1,0 +1,13 @@
+name: get_approval_thresholds
+description: >
+  Returns the approval requirements for a given order amount based on Apex's procurement policy.
+inputs:
+  - order_amount: number
+outputs:
+  - approval_level: string  # "Auto-approved", "Procurement review", "Dual approval"
+  - approvers: list[string]
+
+logic:
+  - < $5,000 → Auto-approved
+  - $5,000–$20,000 → Procurement review
+  - > $20,000 → Dual approval (Finance + Procurement)

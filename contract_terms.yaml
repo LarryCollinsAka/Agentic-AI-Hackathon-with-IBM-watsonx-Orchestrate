@@ -1,0 +1,15 @@
+name: get_contract_terms
+description: >
+  Returns delivery terms, penalties, and escalation protocol for a given supplier contract.
+inputs:
+  - vendor_name: string
+outputs:
+  - delivery_sla_days: integer
+  - penalty_percent: float
+  - escalation_steps: list[string]
+
+logic:
+  - TransGlobal Freight Ltd.:
+    - SLA: 7 business days
+    - Penalty: 2% for >3-day delay
+    - Escalation: [Alert Procurement Officer, escalate to Compliance Manager after 48h]

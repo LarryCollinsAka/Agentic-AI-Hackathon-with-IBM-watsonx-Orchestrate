@@ -1,0 +1,14 @@
+name: get_alert_template
+description: >
+  Returns a shipment delay alert message in the vendor’s preferred language.
+inputs:
+  - language: string  # "English", "French", "Hausa", "Fulfulde"
+outputs:
+  - subject: string
+  - message: string
+
+logic:
+  - English → "Shipment Delay Alert", "Your shipment is delayed. Apex will reallocate inventory to minimize impact."
+  - French → "Alerte de retard d’expédition", "Votre expédition est retardée. Apex réaffectera les stocks pour limiter l’impact."
+  - Hausa → "Jinkirin jigilar kaya", "Jigilarku ta jinkirta. Apex zai sake rarraba kaya don rage tasiri."
+  - Fulfulde → "Jokkondirde jiggirde", "Jiggirde maa jokkondirde. Apex ena waawi jokkondirde stock ngam waɗde fayde."

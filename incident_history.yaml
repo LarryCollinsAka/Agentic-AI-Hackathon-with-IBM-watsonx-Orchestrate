@@ -1,0 +1,12 @@
+name: get_incident_history
+description: >
+  Returns recent incidents involving a vendor, including issue and resolution.
+inputs:
+  - vendor_name: string
+outputs:
+  - incidents: list[object]  # {date, issue, resolution}
+
+logic:
+  - NovaTrade Inc. → Aug 12: Delay (4 days), resolved via Douala reallocation
+  - SolaTech SARL → Jul 3: Missing sustainability report, escalated to compliance
+  - EcoSupply Ltd. → Jun 18: Incorrect packaging, auto-alert, resolved in 24h
