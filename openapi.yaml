@@ -202,3 +202,42 @@ paths:
                       Fulfulde:
                         subject: Jokkondirde jiggirde
                         message: Jiggirde maa jokkondirde. Apex ena waawi jokkondirde stock ngam waɗde fayde.
+  /order-check:
+    get:
+      operationId: checkOrderPolicy
+      summary: Check policy compliance for a proposed order
+      description: >
+        Calculates total cost of a proposed order and returns the required approval level
+        based on Apex's procurement policy thresholds.
+      parameters:
+        - name: product
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Name of the product to order
+        - name: quantity
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Quantity of the product to order
+      responses:
+        '200':
+          description: Policy decision for proposed order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product: { type: string }
+                  unit_price: { type: number }
+                  quantity: { type: integer }
+                  total_cost: { type: number }
+                  policy_decision:
+                    type: object
+                    properties:
+                      level: { type: string }
+                      approvers:
+                        type: array
+                        items: { type: string }
